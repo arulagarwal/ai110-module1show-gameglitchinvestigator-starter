@@ -1,38 +1,52 @@
-# 🎮 Game Glitch Investigator: The Impossible Guesser
+🎮 Game Glitch Investigator: The Impossible Guesser
+🚨 The Situation
 
-## 🚨 The Situation
+You asked an AI to build a simple "Number Guessing Game" using Streamlit. It wrote the code, claimed it was "production-ready," and then disappeared. In reality, the game was a mess: the hints lied, the score went negative, and the secret number changed every single time you made a guess.
+🛠️ Setup
 
-You asked an AI to build a simple "Number Guessing Game" using Streamlit.
-It wrote the code, ran away, and now the game is unplayable. 
+    Activate Environment: source venv/bin/activate
 
-- You can't win.
-- The hints lie to you.
-- The secret number seems to have commitment issues.
+    Install dependencies: pip install -r requirements.txt
 
-## 🛠️ Setup
+    Run the app: python -m streamlit run app.py
 
-1. Install dependencies: `pip install -r requirements.txt`
-2. Run the broken app: `python -m streamlit run app.py`
+🕵️‍♂️ Mission Objective
 
-## 🕵️‍♂️ Your Mission
+The goal was to diagnose, refactor, and repair this broken AI-generated code. I successfully decoupled the game logic from the UI, fixed state management issues, and verified the entire system with a robust automated testing suite.
+📝 Document Your Experience
+The Bugs I Found
 
-1. **Play the game.** Open the "Developer Debug Info" tab in the app to see the secret number. Try to win.
-2. **Find the State Bug.** Why does the secret number change every time you click "Submit"? Ask ChatGPT: *"How do I keep a variable from resetting in Streamlit when I click a button?"*
-3. **Fix the Logic.** The hints ("Higher/Lower") are wrong. Fix them.
-4. **Refactor & Test.** - Move the logic into `logic_utils.py`.
-   - Run `pytest` in your terminal.
-   - Keep fixing until all tests pass!
+    The "Commitment Issue" (State Bug): The secret number was being re-generated on every rerun, making it impossible for a user to ever win.
 
-## 📝 Document Your Experience
+    Reversed Hint Logic: The game incorrectly told users to "Go Lower" when their guess was already below the secret number.
 
-- [ ] Describe the game's purpose.
-- [ ] Detail which bugs you found.
-- [ ] Explain what fixes you applied.
+    Negative Scoring: The score lacked a floor, allowing it to drop into negative integers indefinitely.
 
-## 📸 Demo
+    Input Vulnerability: The game accepted strings, special characters, and numbers outside the 1-100 range, wasting user attempts.
 
-- [ ] [Insert a screenshot of your fixed, winning game here]
+The Fixes I Applied
 
-## 🚀 Stretch Features
+    Session State Management: Implemented st.session_state to persist the secret number, score, and guess history across reruns.
 
-- [ ] [If you choose to complete Challenge 4, insert a screenshot of your Enhanced Game UI here]
+    Logic Refactoring: Moved all core game mechanics into logic_utils.py to ensure the code is modular, testable, and clean.
+
+    Input Validation: Created a robust parse_guess function that validates types and ranges before processing.
+
+    Automated Testing: Developed a suite of 22 tests using pytest to cover every edge case from empty strings to extreme boundary values.
+
+📸 Demo
+Enhanced Game UI & High Score Tracker
+
+I upgraded the UI with color-coded hints (Red for High, Yellow for Low, Green for Win), proximity emojis (Hot/Cold), and a persistent All-Time Best Score metric in the sidebar.
+Automated Test Suite
+
+All 22 test cases—covering game logic, score clamping, and input parsing—are passing successfully.
+🚀 Stretch Features Completed
+
+    Challenge 1: Advanced Edge-Case Testing — Added 19 additional tests for malformed inputs and boundary conditions.
+
+    Challenge 2: Feature Expansion — Implemented a persistent High Score tracker using highscore.json.
+
+    Challenge 3: Professional Documentation — Added NumPy-style docstrings and PEP-8 compliant formatting to all modules.
+
+    Challenge 4: Enhanced Game UI — Integrated a sortable Guess History dataframe and proximity-based feedback.
